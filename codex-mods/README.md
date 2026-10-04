@@ -1,6 +1,6 @@
 # Codex Mods
 
-A Codex command-hook adapter for the four Nate Herk Claude mods. The upstream Claude packages are unchanged. Code is MIT licensed; see ../LICENSE. Tested runtime: Codex CLI 0.159.3; Python 3.12. The runtime uses Python's standard library and SQLite; Windows execution has not been tested.
+A Codex command-hook adapter for the four Nate Herk Claude mods. The upstream Claude packages are unchanged. Code is MIT licensed; see LICENSE. Tested runtime: Codex CLI 0.159.3; Python 3.12. The runtime uses Python's standard library and SQLite; Windows execution has not been tested.
 
 | Original mod | Codex behavior | Limit |
 |---|---|---|
