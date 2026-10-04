@@ -1,5 +1,5 @@
 {
-  "name": "nateherk-mods",
+  "name": "nateherk-mods-codex",
   "description": "Claude Code mods by Nate Herk: cache savings, recording mode, a /goal progress bar, and a guard for parallel chats",
   "owner": {
     "name": "Nate Herk"
@@ -24,6 +24,11 @@
       "name": "collision-guard",
       "source": "./collision-guard",
       "description": "Asks before Claude edits a file another open chat changed in the last 30 minutes: Proceed, Move to a worktree, or Cancel (/guard)"
+    },
+    {
+      "name": "codex-mods",
+      "source": "./codex-mods",
+      "description": "Codex adapters for recording safeguards, file collisions, goals, session usage, and handoff. No native screen masking or keep-warm."
     }
   ]
 }

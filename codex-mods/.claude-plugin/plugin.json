@@ -1,0 +1,11 @@
+{
+  "name": "codex-mods",
+  "version": "1.0.0",
+  "description": "Codex adapters for recording safeguards, file collisions, goals, session usage, and handoff. No native screen masking or keep-warm.",
+  "license": "MIT",
+  "skills": "./skills/",
+  "hooks": {},
+  "author": {
+    "name": "Nate Herk (original mods); nicksonnenberg fork (Codex adapter)"
+  }
+}
