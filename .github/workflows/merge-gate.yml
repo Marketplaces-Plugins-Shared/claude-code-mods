@@ -1,0 +1,59 @@
+name: Merge Gate
+
+# Rollout-gate enforcement (issue #439). FAILS when a PR carries a gate label
+# (`hold` / `do-not-merge` / `needs-gate`), so no merge path — auto-merge,
+# merge-queue, or a manual click — can land a gated PR until the label is
+# removed. This makes a PR rollout gate enforceable, not prose: a "DO NOT MERGE
+# until X" banner in a PR body is invisible to a concurrent auto-merge session
+# (the PR #341 review_decisions incident), but a required status check is not.
+#
+# NOTE — no `paths:` filter (intentional). A required status check gated by
+# `paths:` is GitHub's classic block-forever footgun: PRs that don't touch the
+# listed paths sit on "Expected — Waiting for status" forever. The check is a
+# single cheap label read, so it runs on every PR — mirroring the sibling
+# required gate consistency.yml, which deliberately omits `paths:`.
+#
+# `labeled` / `unlabeled` are in the trigger list so the check re-runs the
+# instant a gate label is added or removed (flipping the status without a new
+# push), letting the gate clear as soon as the operator drops the label.
+#
+# To clear a failing gate: remove the offending label
+#   gh pr edit <N> --remove-label <hold|do-not-merge|needs-gate>
+#
+# One-time admin setup: add `merge-gate` as a REQUIRED status check on `main`
+# branch protection (cannot be done from code) — until then the check runs but
+# isn't enforced. See the PR body for the exact command.
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize, reopened]
+
+concurrency:
+  group: merge-gate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  pull-requests: read
+  contents: read
+
+jobs:
+  merge-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if a rollout-gate label is present
+        run: |
+          gate_labels="hold do-not-merge needs-gate"
+          present="$(jq -r '.pull_request.labels[].name' "$GITHUB_EVENT_PATH")"
+          found=""
+          for g in $gate_labels; do
+            if printf '%s\n' "$present" | grep -Fxq "$g"; then
+              found="$found $g"
+            fi
+          done
+          if [ -n "$found" ]; then
+            echo "::error::Rollout gate active — PR carries gate label(s):$found"
+            echo "This PR is blocked from merging until the gate label(s) are removed."
+            echo "Clear it with: gh pr edit <N> --remove-label$found"
+            exit 1
+          fi
+          echo "No rollout-gate label present (checked: $gate_labels) — gate clear."
