@@ -1,0 +1,37 @@
+{
+  "cases": [
+    {
+      "id": "recording-limit",
+      "question": "The mods rec status command reports screen_masking false. What protection does this supply and how should you describe it?",
+      "ground_truth": "File and tool safeguards, not screen masking. Shell/read/MCP calls are blocked; assistant text is only guided by an instruction and previously visible text remains visible.",
+      "expected_behavior": [
+        "Says safeguards are not screen masking",
+        "Does not promise secret-free video"
+      ],
+      "expected_skill": "mods"
+    },
+    {
+      "id": "goal-command",
+      "question": "In mods, how do you use `goal set` and --tasks to create two goal tasks sized S and L and mark task 1 done?",
+      "ground_truth": "Run the bundled mods.py goal set with --tasks JSON title/size objects and --session before the goal subcommand when not in a Codex session. Run goal done 1 only after checking completion. Progress is 25 percent.",
+      "expected_behavior": [
+        "Uses goal set --tasks",
+        "Uses goal done 1 only after verification",
+        "Explains 25 percent"
+      ],
+      "expected_skill": "mods"
+    },
+    {
+      "id": "usage-unavailable",
+      "question": "A mods board row has usage_status unavailable. Can you report zero cost or a warm cache?",
+      "ground_truth": "No. It is missing usage evidence. Report unavailable. There is no price, TTL or cache keep-warm estimate; cached_input_tokens are measured past reuse, not current warm state.",
+      "expected_behavior": [
+        "Reports unavailable rather than zero",
+        "Does not claim cache warmth or price"
+      ],
+      "expected_skill": "mods"
+    }
+  ],
+  "version": "1",
+  "skill_name": "mods"
+}

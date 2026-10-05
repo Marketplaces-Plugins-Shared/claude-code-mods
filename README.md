@@ -122,3 +122,7 @@ Everything stays on your machine, under `~/.claude/mods-data/`: Cache Keeper's s
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Codex adapter in this fork
+
+See [Codex Mods](codex-mods/README.md) for the install commands, controls, and explicit feature limits. The original four Claude plugins remain unchanged.

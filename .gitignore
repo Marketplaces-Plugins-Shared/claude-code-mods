@@ -5,3 +5,8 @@ Thumbs.db
 # written by Claude Code when a mod loads from a folder
 .claude-plugin/types/
 tsconfig.json
+
+# Codex adapter Python artifacts
+__pycache__/
+*.py[cod]
+.ruff_cache/
